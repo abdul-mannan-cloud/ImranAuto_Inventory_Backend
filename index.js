@@ -17,7 +17,6 @@ app.use(cors());
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/yourDatabaseName', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true
 }).then(() => console.log('MongoDB connected...'))
     .catch(err => console.log(err));
 
@@ -25,7 +24,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/yourDatab
 const userRoutes = require('./routes/userRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 const itemRoutes = require('./routes/itemRoutes');
-const orderChalanRoutes = require('./routes/orderChalanRoutes');
+const orderChalanRoutes = require('./routes/orderRoutes');
 const billRoutes = require('./routes/billRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 
