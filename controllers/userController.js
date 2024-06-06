@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 
 exports.createUser = async (req, res) => {
     const user = new User(req.body);
@@ -54,3 +55,22 @@ exports.deleteUser = async (req, res) => {
         res.status(500).send(e);
     }
 };
+
+exports.login = async (req, res) => {
+    try {
+        const user = await User.findOne({username:req.body.username});
+        if (!user) {
+            return res.status(404).send();
+        }
+        if (user.password !== req.body.password) {
+            return res.status(401).send();
+        }
+        const token = await jwt.sign({_id: user._id}, process.env.JWT_SECRET);
+        res.setHeader('Authorization', token);
+        res.send(user);
+
+    } catch (e) {
+        console.log(e)
+        res.status(500).send(e);
+    }
+}
