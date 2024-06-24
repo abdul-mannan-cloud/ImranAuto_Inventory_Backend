@@ -18,16 +18,26 @@ const billSchema = new Schema({
             required: true
         },
         saleRate: Number,
-        total: Number
+        total: Number,
+        name: String,
+        purchaseRate: Number
     }],
     totalAmount: {
         type: Number,
         required: true
     },
+    status: {
+        type: String,
+        default: 'Non Completed'
+    },
+    confirmed:{
+        type: Boolean,
+        default: false
+    },
     date: {
         type: Date,
         default: Date.now
-    }
+    },
 }, {
     timestamps: true
 });

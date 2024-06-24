@@ -6,6 +6,7 @@ exports.createCustomer = async (req, res) => {
         await customer.save();
         res.status(201).send(customer);
     } catch (e) {
+        console.log(e)
         res.status(400).send(e);
     }
 };
@@ -54,3 +55,15 @@ exports.deleteCustomer = async (req, res) => {
         res.status(500).send(e);
     }
 };
+
+exports.addBalance = async (req, res) => {
+    try {
+        const customer = await Customer.findByIdAndUpdate(req.params.id, { $inc: { balance: req.body.balance } }, { new: true, runValidators: true });
+        if (!customer) {
+            return res.status(404).send();
+        }
+        res.send(customer);
+    } catch (e) {
+        res.status(400).send(e);
+    }
+}

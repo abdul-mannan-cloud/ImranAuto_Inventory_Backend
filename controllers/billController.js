@@ -6,6 +6,7 @@ exports.createBill = async (req, res) => {
         await bill.save();
         res.status(201).send(bill);
     } catch (e) {
+        console.log(e)
         res.status(400).send(e);
     }
 };
