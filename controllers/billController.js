@@ -34,12 +34,14 @@ exports.getBill = async (req, res) => {
 
 exports.updateBill = async (req, res) => {
     try {
-        const bill = await Bill.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        const bill = await Bill.findByIdAndUpdate(req.params.id, {
+        }, { new: true, runValidators: true });
         if (!bill) {
             return res.status(404).send();
         }
         res.send(bill);
     } catch (e) {
+        console.log(e)
         res.status(400).send(e);
     }
 };

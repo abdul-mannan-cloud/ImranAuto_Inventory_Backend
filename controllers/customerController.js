@@ -1,4 +1,5 @@
 const Customer = require('../models/Customer');
+const Bill = require('../models/Bill');
 
 exports.createCustomer = async (req, res) => {
     const customer = new Customer(req.body);
@@ -67,3 +68,14 @@ exports.addBalance = async (req, res) => {
         res.status(400).send(e);
     }
 }
+
+exports.getBillsByCustomerId = async (req, res) => {
+    const customerId = req.params.id;
+    try {
+        const bills = await Bill.find({ customer: customerId });
+        res.status(200).send(bills);
+    } catch (e) {
+        console.log(e)
+        res.status(500).send(e);
+    }
+};

@@ -7,5 +7,7 @@ router.get('/', itemController.getItems);
 router.get('/:id', itemController.getItem);
 router.put('/:id', itemController.updateItem);
 router.delete('/:id', itemController.deleteItem);
+router.get('/:id/rates', itemController.getItemRatesById);
+router.get('/:id/quantity', itemController.reduceItemQuantityById);
 
 module.exports = router;

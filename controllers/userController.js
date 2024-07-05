@@ -14,7 +14,7 @@ exports.createUser = async (req, res) => {
 exports.getUsers = async (req, res) => {
     try {
         const users = await User.find({});
-        res.send(users);
+        res.status(200).send(users);
     } catch (e) {
         res.status(500).send(e);
     }

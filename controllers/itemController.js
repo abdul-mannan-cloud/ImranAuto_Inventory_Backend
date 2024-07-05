@@ -1,4 +1,5 @@
 const Item = require('../models/Item');
+const Bill = require('../models/Bill');
 
 exports.createItem = async (req, res) => {
     const item = new Item(req.body);
@@ -54,3 +55,43 @@ exports.deleteItem = async (req, res) => {
         res.status(500).send(e);
     }
 };
+
+exports.getItemRatesById = async (req, res) => {
+    try {
+        const itemId = req.params.id;
+        const bills = await Bill.find({ 'items.item': itemId })
+            .populate('customer', 'name')
+            .select('items customer')
+            .lean();
+
+        const rates = bills.flatMap(bill => {
+            return bill.items
+                .filter(item => item.item.toString() === itemId)
+                .map(item => ({
+                    customerName: bill.customer.name,
+                    saleRate: item.saleRate,
+                    purchaseRate: item.purchaseRate,
+                }));
+        });
+
+        res.json(rates);
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: 'Failed to get item rates' });
+    }
+};
+
+exports.reduceItemQuantityById = async (req, res) => {
+    try {
+        const quantity = req.query.quantity;
+        const item = await Item.findById(req.params.id);
+        if (!item) {
+            return res.status(404).send();
+        }
+        item.quantity -= quantity;
+        await item.save();
+        res.send(item);
+    } catch (e) {
+        res.status(500).send(e);
+    }
+}
