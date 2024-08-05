@@ -4,9 +4,10 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     role: {
         type: String,
-        enum: ['Admin', 'Staff'],
+        enum: ['admin', 'employee'],
         required: true
     },
+    grants: [],
     username: {
         type: String,
         required: true,

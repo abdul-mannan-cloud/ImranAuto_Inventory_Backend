@@ -7,21 +7,9 @@ const billSchema = new Schema({
         ref: 'Customer',
         required: true
     },
-    items: [{
-        item: {
-            type: Schema.Types.ObjectId,
-            ref: 'Item',
-            required: true
-        },
-        quantity: {
-            type: Number,
-            required: true
-        },
-        saleRate: Number,
-        total: Number,
-        name: String,
-        purchaseRate: Number
-    }],
+    items:{
+      type:Array,
+    },
     totalAmount: {
         type: Number,
         required: true

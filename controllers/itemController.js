@@ -59,18 +59,20 @@ exports.deleteItem = async (req, res) => {
 exports.getItemRatesById = async (req, res) => {
     try {
         const itemId = req.params.id;
-        const bills = await Bill.find({ 'items.item': itemId })
+        const bills = await Bill.find({ 'items.itemId': itemId })
             .populate('customer', 'name')
-            .select('items customer')
+            .select('items customer createdAt')
             .lean();
+
 
         const rates = bills.flatMap(bill => {
             return bill.items
-                .filter(item => item.item.toString() === itemId)
+                .filter(item => item.itemId.toString() === itemId)
                 .map(item => ({
                     customerName: bill.customer.name,
                     saleRate: item.saleRate,
                     purchaseRate: item.purchaseRate,
+                    date: new Date(bill.createdAt).toLocaleDateString()
                 }));
         });
 
