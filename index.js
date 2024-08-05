@@ -28,6 +28,9 @@ const orderChalanRoutes = require('./routes/orderRoutes');
 const billRoutes = require('./routes/billRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const vendorRoutes = require('./routes/vendorRoutes');
+const upload = require("./middleware/multer");
+
+app.use('/uploads', express.static('public/images'));
 
 app.use('/users', userRoutes);
 app.use('/customers', customerRoutes);
@@ -36,6 +39,21 @@ app.use('/orders', orderChalanRoutes);
 app.use('/bills', billRoutes);
 app.use('/payments', paymentRoutes);
 app.use('/vendors', vendorRoutes);
+
+app.post('/upload', upload.single('image'), (req, res) => {
+    console.log('here',req.files)
+    if (req.file) {
+        res.status(200).json({
+            message: 'Image uploaded successfully!',
+            url: `/uploads/${req.file.filename}`
+        });
+    } else {
+        console.log('Failed to upload image')
+        res.status(400).json({
+            message: 'Failed to upload image'
+        });
+    }
+});
 
 app.get('/', (req, res) => {
     res.send('Welcome to the backend!');

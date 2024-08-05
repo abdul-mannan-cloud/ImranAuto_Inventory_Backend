@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const itemController = require('../controllers/itemController');
+const upload = require("../middleware/multer");
 
 router.post('/', itemController.createItem);
 router.get('/', itemController.getItems);

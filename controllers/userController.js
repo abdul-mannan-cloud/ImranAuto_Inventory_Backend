@@ -65,7 +65,7 @@ exports.login = async (req, res) => {
         if (user.password !== req.body.password) {
             return res.status(401).send();
         }
-        const token = await jwt.sign({_id: user._id}, process.env.JWT_SECRET);
+        const token = await jwt.sign({_id: user._id,role:user.role}, process.env.JWT_SECRET);
         res.setHeader('Authorization', token);
         res.send(user);
 
